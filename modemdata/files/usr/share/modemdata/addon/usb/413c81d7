@@ -30,7 +30,8 @@ T=$(echo "$O1" | awk '/^RSRP:/ {print $2}' | sed 's/dBm/ dBm/')
 [ -n "$T" ] && addon 36 "RSRP" "$T"
 T=$(echo "$O1" | awk '/^RSRQ:/ {print $2}' | sed 's/dB/ dB/')
 [ -n "$T" ] && addon 37 "RSRQ" "$T"
-T=$(echo "$O1" | awk '/^RS-SINR/ {print $2}' | sed 's/dB/ dB/')
+T=$(echo "$O1" | awk '/^RS-SINR:/ {print $2; exit}' | sed 's/dB/ dBm/')
+[ -z "$T" ] && T=$(echo "$O1" | awk '/^RS-SNR:/ {print $2; exit}' | sed 's/dB/ dBm/')
 [ -n "$T" ] && addon 38 "SINR" "$T"
 
 T=$(echo "$O1" | awk '/^BAND:/ {print $2}')
